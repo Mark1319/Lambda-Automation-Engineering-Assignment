@@ -8,7 +8,8 @@ export class AmazonPage {
   constructor(page: Page) {
     this.page = page;
     this.searchInput = page.locator('#twotabsearchtextbox');
-    this.cartButton = page.locator('#add-to-cart-button, input[name="submit.add-to-cart"]');
+    this.cartButton = page.getByRole('button', {
+  name:"Add to cart" });
   }
 
   async goto() {
@@ -44,11 +45,15 @@ export class AmazonPage {
       return price;
     }
 
+    // const product = this.page
+    //   .getByRole('listitem')
+    //   .filter({ hasText: productName })
+    //   .filter({ has: this.page.locator('.a-price') })
+    //   .first();
     const product = this.page
-      .getByRole('listitem')
-      .filter({ hasText: productName })
-      .filter({ has: this.page.locator('.a-price') })
-      .first();
+  .getByRole('listitem')
+  .filter({ has: this.page.locator('.a-price') })
+  .first();
 
     const price = await this.getPriceFrom(product);
     await product.locator('a:has(h2)').first().click();
